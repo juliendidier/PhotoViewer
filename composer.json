@@ -1,0 +1,15 @@
+{
+    "require": {
+        "silex/silex": "1.0.*",
+        "symfony/finder": "dev-master",
+        "symfony/yaml": "dev-master",
+        "twig/twig": ">=1.8,<2.0-dev",
+        "symfony/twig-bridge": "2.1.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Photo": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}

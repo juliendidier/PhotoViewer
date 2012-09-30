@@ -1,0 +1,5 @@
+/vendor/
+/web/photos
+composer.lock
+composer.phar
+

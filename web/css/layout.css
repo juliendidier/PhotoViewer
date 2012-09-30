@@ -1,0 +1,10 @@
+ul.view {
+    border: 1px solid red;
+}
+
+ul.view li {
+    float:left;
+    width:100px;
+    height:100px;
+    border:1px solid black;
+}

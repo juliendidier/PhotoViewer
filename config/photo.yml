@@ -1,0 +1,2 @@
+path: "/var/www/photo/web/photos"
+extensions: [ jpg, jpeg, png ]
