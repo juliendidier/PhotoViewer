@@ -4,7 +4,8 @@
         "symfony/finder": "dev-master",
         "symfony/yaml": "dev-master",
         "twig/twig": ">=1.8,<2.0-dev",
-        "symfony/twig-bridge": "2.1.*"
+        "symfony/twig-bridge": "2.1.*",
+        "twitter/bootstrap": "2.1.1"
     },
     "autoload": {
         "psr-0": {

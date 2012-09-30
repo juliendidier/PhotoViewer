@@ -1,17 +1,27 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-    <a href="{{ path('homepage') }}">home</a>
-    <ul class="view">
-        {% for dir in dirs %}
-            <li class="dir">
-                <a href="{{ path('homepage', {'path': dir.realPath|slice(app.config.path|length + 1, dir.realPath|length - app.config.path|length)}) }}">
-                    {{ dir.fileName }}
-                </a>
+    <ul id="nav">
+        <li><a href="{{ path('homepage') }}">home</a></li>
+        {% for dir in breadcrumb %}
+            <li>
+                <a href="{{ path('homepage', {'path': '/'~dir}) }}">{{ dir }}</a>
+                {% if not loop.last %}<em>/</em>{% endif %}
             </li>
         {% endfor %}
-        {% for file in files %}
-            <li><img width="100" height="100" src="{{ app.request.basepath }}/image/thumbnail?path={{ file.realPath }}" /></li>
-        {% endfor %}
     </ul>
+
+    <dl class="view">
+        {% for dir in dirs %}
+            {% set dirPath = path~'/'~dir.filename %}
+            <dt>
+                <a href="{{ path('homepage', {'path': dirPath}) }}">
+                    {{ dir.fileName }}
+                </a>
+            </dt>
+        {% endfor %}
+        {% for file in files %}
+            <dt><img width="100" height="100" src="{{ app.request.basepath }}/image/thumbnail?path={{ file.realPath }}" /></dt>
+        {% endfor %}
+    </dl>
 {% endblock %}

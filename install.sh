@@ -15,6 +15,7 @@ mkdir "San Francisco"
 
 cd Paris
 mkdir 1
+wget -b http://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Grand_paris_express.svg/741px-Grand_paris_express.svg.png
 cd 1
 wget -b http://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Paris_Night.jpg/800px-Paris_Night.jpg
 wget -b http://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Eiffel_Tower_and_general_view_of_the_grounds%2C_Exposition_Universal%2C_1900%2C_Paris%2C_France_2.jpg/800px-Eiffel_Tower_and_general_view_of_the_grounds%2C_Exposition_Universal%2C_1900%2C_Paris%2C_France_2.jpg

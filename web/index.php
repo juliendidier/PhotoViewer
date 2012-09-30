@@ -18,16 +18,18 @@ $app['debug'] = true;
 
 $app->get('/', function (Request $request) use ($app) {
     $path = urldecode($request->query->get('path', ''));
-    $path = $app['config']['path'].'/'.$path;
+    $basePath = $app['config']['path'].$path;
+
     $finder = new Finder();
 
     $dirs = $finder
         ->directories()
         ->depth(0)
-        ->in($path)
+        ->in($basePath)
         ->getIterator()
     ;
 
+    $finder = new Finder();
     $extensions = '*.('.implode('|', $app['config']['extensions']).')';
     foreach ($app['config']['extensions'] as $extension) {
         $finder->name('*.'.$extension);
@@ -36,11 +38,17 @@ $app->get('/', function (Request $request) use ($app) {
     $files = $finder
         ->files()
         ->depth(0)
-        ->in($app['config']['path'])
+        ->in($basePath)
+        ->sortByModifiedTime()
         ->getIterator()
     ;
 
-    return $app->render('index.html.twig', ['dirs' => $dirs, 'files' => $files]);
+    return $app->render('index.html.twig', [
+        'breadcrumb' => explode('/', $path),
+        'path' => $path,
+        'dirs' => $dirs,
+        'files' => $files]
+    );
 })->bind('homepage');
 
 $app->get('/image/thumbnail', function (Request $request) {

@@ -1,10 +1,25 @@
-ul.view {
-    border: 1px solid red;
+* {
+    margin: 0;
+    padding: 0;
 }
 
-ul.view li {
+#nav {
+    height:20px;
+}
+
+#nav li {
     float:left;
+}
+
+#nav li em {
+    padding: 0 5px;
+}
+
+.view dt {
+    float:left;
+}
+
+.view dt {
     width:100px;
     height:100px;
-    border:1px solid black;
 }
