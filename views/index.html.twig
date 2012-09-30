@@ -1,13 +1,21 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-    <ul class="breadcrumb">
-        <li><a href="{{ path('homepage') }}">home</a></li>
+    <ul class="breadcrumb{% if dir|default('false') %} active{% endif %}">
+        {% if not path %}
+            <li>home</li>
+        {% else %}
+            <li><a href="{{ path('homepage') }}">home</a></li>
+        {% endif %}
         {% for dir in breadcrumb %}
-            <li>
-                <a href="{{ path('homepage', {'path': '/'~dir}) }}">{{ dir }}</a>
-                {% if not loop.last %}<em>/</em>{% endif %}
-            </li>
+            {% if not loop.last %}
+                <li>
+                    <a href="{{ path('homepage', {'path': '/'~dir}) }}">{{ dir }}</a>
+                    <em>/</em>
+                </li>
+            {% else %}
+                <li class="active">{{ dir }}</li>
+            {% endif %}
         {% endfor %}
     </ul>
 
