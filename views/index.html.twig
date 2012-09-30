@@ -1,7 +1,7 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-    <ul id="nav">
+    <ul class="breadcrumb">
         <li><a href="{{ path('homepage') }}">home</a></li>
         {% for dir in breadcrumb %}
             <li>
@@ -11,21 +11,23 @@
         {% endfor %}
     </ul>
 
-    <dl class="view">
-        {% for dir in dirs %}
-            {% set dirPath = path~'/'~dir.filename %}
-            <dt>
-                <a href="{{ path('homepage', {'path': dirPath}) }}">
-                    {{ dir.fileName }}
-                </a>
-            </dt>
-        {% endfor %}
-        {% for file in files %}
-            {% set filePath = path~'/'~file.filename %}
-            <dt>
-                <a href="{{ path('image', {'path': filePath}) }}">
-                    <img width="100" height="100" src="{{ path('image', {'path': filePath}) }}" /></dt>
-                </a>
-        {% endfor %}
-    </dl>
+    <div class="row-fluid">
+        <ul class="thumbnails">
+            {% for dir in dirs %}
+                {% set dirPath = path~'/'~dir.filename %}
+                <li class="dir span2">
+                    <a href="{{ path('homepage', {'path': dirPath}) }}">
+                        {{ dir.fileName }}
+                    </a>
+                </li>
+            {% endfor %}
+            {% for file in files %}
+                {% set filePath = path~'/'~file.filename %}
+                <li class="dile span2">
+                    <a href="{{ path('image', {'path': filePath}) }}">
+                        <img src="{{ path('image', {'path': filePath}) }}" alt={{ file.filename }}/></li>
+                    </a>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

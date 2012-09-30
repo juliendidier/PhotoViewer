@@ -1,0 +1,22 @@
+body {
+    background-color: #0B0B0B;
+}
+
+a {
+    color: #F0F0F0;
+    text-shadow: 0 1px 0 #0B0B0B;
+}
+
+.breadcrumb {
+    background-color: #1B1B1B;
+}
+
+li.dir {
+    background-color:#1B1B1B;
+    padding:10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+}

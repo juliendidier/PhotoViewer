@@ -1,2 +1,2 @@
-path: "/var/www/photo/web/photos"
-extensions: [ jpg, jpeg, png ]
+path       : "/var/www/photo/web/photos"
+extensions : [ jpg, JPG, jpeg, png ]

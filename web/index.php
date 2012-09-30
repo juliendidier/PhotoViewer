@@ -13,8 +13,6 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 ));
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 
-// definitions
-$app['debug'] = true;
 
 $app->get('/', function (Request $request) use ($app) {
     $path = urldecode($request->query->get('path', ''));
