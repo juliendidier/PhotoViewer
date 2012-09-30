@@ -21,7 +21,11 @@
             </dt>
         {% endfor %}
         {% for file in files %}
-            <dt><img width="100" height="100" src="{{ app.request.basepath }}/image/thumbnail?path={{ file.realPath }}" /></dt>
+            {% set filePath = path~'/'~file.filename %}
+            <dt>
+                <a href="{{ path('image', {'path': filePath}) }}">
+                    <img width="100" height="100" src="{{ path('image', {'path': filePath}) }}" /></dt>
+                </a>
         {% endfor %}
     </dl>
 {% endblock %}

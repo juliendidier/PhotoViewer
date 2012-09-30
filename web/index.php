@@ -51,16 +51,18 @@ $app->get('/', function (Request $request) use ($app) {
     );
 })->bind('homepage');
 
-$app->get('/image/thumbnail', function (Request $request) {
-    $path = $request->query->get('path');
+$app->get('/image', function (Request $request) use ($app) {
+    $path = urldecode($request->query->get('path', ''));
+    $basePath = $app['config']['path'].$path;
     $pathInfo = pathinfo($path);
 
-    $image = file_get_contents($path);
+    $image = file_get_contents($basePath);
     if ($image) {
         return new Response($image, 200, [
             'Content-Type' => 'image/'.$pathInfo['extension']
         ]);
     }
-})->bind('image_thumbnail');
+})->bind('image');
+
 
 $app->run();
