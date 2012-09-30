@@ -1,39 +1,60 @@
 {% extends 'layout.html.twig' %}
 
-{% block content %}
-    <ul class="breadcrumb{% if dir|default('false') %} active{% endif %}">
-        {% if not path %}
-            <li>home</li>
-        {% else %}
-            <li><a href="{{ path('homepage') }}">home</a></li>
-        {% endif %}
-        {% for dir in breadcrumb %}
-            {% if not loop.last %}
-                <li>
-                    <a href="{{ path('homepage', {'path': '/'~dir}) }}">{{ dir }}</a>
-                    <em>/</em>
-                </li>
-            {% else %}
-                <li class="active">{{ dir }}</li>
-            {% endif %}
-        {% endfor %}
-    </ul>
+{% block header %}
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="nav-collapse">
+            <ul class="nav">
+                <li class="brand">/</li>
+                <li><a href="{{ path('homepage') }}">home</a></li>
+                {% for dir in breadcrumb %}
+                    <li class="brand">/</li>
+                    {% if not loop.last %}
+                        <li>
+                            <a href="{{ path('homepage', {'path': '/'~dir}) }}">{{ dir }}</a>
+                        </li>
+                    {% else %}
+                        <li class="brand">{{ dir }}</li>
+                    {% endif %}
+                {% endfor %}
 
-    <div class="row-fluid">
-        <ul class="thumbnails">
-            {% for dir in dirs %}
-                {% set dirPath = path~'/'~dir.filename %}
-                <li class="dir span2">
-                    <a href="{{ path('homepage', {'path': dirPath}) }}">
-                        {{ dir.fileName }}
+                <li class="brand">/</li>
+
+                <li class="lang dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        ...
+                        <b class="caret"></b>
                     </a>
+                    <ul class="dropdown-menu">
+                        {% for dir in dirs %}
+                            {% set dirPath = path~'/'~dir.filename %}
+                            <li>
+                                <a href="{{ path('homepage', {'path': dirPath}) }}">
+                                    {{ dir.fileName }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </li>
-            {% endfor %}
-        </ul>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+    <div id="caroussel" class="carousel slide">
+        <div class="carousel-inner">
+        </div>
+        <a class="carousel-control left" href="#caroussel" data-slide="prev">&lsaquo;</a>
+        <a class="carousel-control right" href="#caroussel" data-slide="next">&rsaquo;</a>
+    </div>
+
+    <div id="thumbnails" class="row-fluid">
         <ul class="thumbnails">
             {% for file in files %}
                 {% set filePath = path~'/'~file.filename %}
-                <li class="dile span2">
+                <li class="span2">
                     <a href="{{ path('image', {'path': filePath}) }}">
                         <img src="{{ path('thumbnail', {'path': filePath}) }}" alt="{{ file.filename }}" />
                     </a>

@@ -27,40 +27,31 @@ class ImageOptimizer
     public function thumbnail($stream, $extension, BoxInterface $size)
     {
         $config = $this->config['size']['thumbnail'];
-        $image = $this->resize($stream, $size, $extension);
+        $image = $this->resize($stream, [
+            'width' => $size->getWidth(), 'height' => $size->getHeight()
+        ], $extension, false);
 
         list($image, $box) = $this->prepare($image, $extension);
         $x = (int) ($box->getWidth() - $size->getWidth()) / 2;
         $y = (int) ($box->getHeight() - $size->getHeight()) / 2;
+
         $point = new Point($x, $y);
         return $image->crop($point, $size);
     }
 
-    public function resize($stream, BoxInterface $limit, $extension)
+    public function resize($stream, $limit, $extension, $remake = true)
     {
         list($image, $size) = $this->prepare($stream);
-        $make = false;
 
-        if ($limit->getHeight() < $size->getHeight()) {
-            $size = $size->heighten($limit->getHeight());
-
-            if ($limit->getWidth() > $size->getWidth()) {
-                $size = $size->widen($limit->getWidth());
-            }
-
-            $make = true;
+        if (null !== $limit['height'] && $limit['height'] < $size->getHeight()) {
+            $size = $size->heighten($limit['height']);
         }
 
-        if ($limit->getWidth() < $size->getWidth() && $make == false) {
-            $size = $size->widen($limit->getWidth());
-            $make = true;
+        if (null !== $limit['width'] && $limit['width'] < $size->getWidth() && $remake) {
+            $size = $size->widen($limit['width']);
         }
 
-        if ($make) {
-            $stream = $image->resize($size)->get($extension);
-        }
-
-        return $stream;
+        return $image->resize($size)->get($extension);
     }
 
     public function get(ImageInterface $image, $extension)

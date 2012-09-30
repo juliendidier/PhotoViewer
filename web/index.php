@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 $app = new Photo\Application();
+$app['debug'] = true;
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/../views',
@@ -41,8 +42,10 @@ $app->get('/', function (Request $request) use ($app) {
         ->getIterator()
     ;
 
+    $paths = array_filter(explode('/', $path));
+
     return $app->render('index.html.twig', [
-        'breadcrumb' => explode('/', $path),
+        'breadcrumb' => $paths,
         'path' => $path,
         'dirs' => $dirs,
         'files' => $files]
@@ -74,15 +77,15 @@ $app->get('/image', function (Request $request) use ($app) {
     $optimizer = new \Photo\Imagine\ImageOptimizer($app['config']['image_optimizer']);
 
     $path = urldecode($request->query->get('path', ''));
-    $width = $request->query->get('width', $app['config']['image_optimizer']['size']['image']['width']);
-    $height = $request->query->get('height', $app['config']['image_optimizer']['size']['image']['height']);
+    $size = [
+        'width' => $request->query->get('width', null),
+        'height' => $request->query->get('height', null),
+    ];
 
     $basePath = $app['config']['path'].$path;
     $pathInfo = pathinfo($path);
 
     $image = file_get_contents($basePath);
-    $size = new \Imagine\Image\Box($width, $height);
-
     $image = $optimizer->resize($image, $size, $pathInfo['extension']);
 
     if ($image) {
