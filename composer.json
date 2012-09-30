@@ -1,4 +1,19 @@
 {
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name"    : "twitter/bootstrap",
+                "version" : "2.1.1",
+                "source"  : {
+                    "url"       : "https://github.com/twitter/bootstrap.git",
+                    "type"      : "git",
+                    "reference" : "v2.1.1"
+                }
+            }
+        }
+    ],
+
     "require": {
         "silex/silex": "1.0.*",
         "symfony/finder": "dev-master",
