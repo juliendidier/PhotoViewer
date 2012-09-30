@@ -35,7 +35,7 @@
                 {% set filePath = path~'/'~file.filename %}
                 <li class="dile span2">
                     <a href="{{ path('image', {'path': filePath}) }}">
-                        <img src="{{ path('image', {'path': filePath}) }}" alt="{{ file.filename }}" />
+                        <img src="{{ path('thumbnail', {'path': filePath}) }}" alt="{{ file.filename }}" />
                     </a>
                 </li>
             {% endfor %}

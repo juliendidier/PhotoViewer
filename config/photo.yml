@@ -1,2 +1,10 @@
 path       : "/var/www/photo/web/photos"
 extensions : [ jpg, JPG, jpeg, png ]
+
+image_optimizer:
+    jpegoptim:
+        bin: /usr/bin/jpegoptim
+        max: 70
+    size:
+        thumbnail: { width: 190, height: 190 }
+        image: { width: 640, height: 480 }

@@ -49,12 +49,42 @@ $app->get('/', function (Request $request) use ($app) {
     );
 })->bind('homepage');
 
-$app->get('/image', function (Request $request) use ($app) {
+$app->get('/thumbnail', function (Request $request) use ($app) {
+    $optimizer = new \Photo\Imagine\ImageOptimizer($app['config']['image_optimizer']);
+
+    $config = $app['config']['image_optimizer']['size']['thumbnail'];
     $path = urldecode($request->query->get('path', ''));
+    $width = $request->query->get('width', $config['width']);
+    $height = $request->query->get('height', $config['height']);
     $basePath = $app['config']['path'].$path;
     $pathInfo = pathinfo($path);
 
     $image = file_get_contents($basePath);
+    $size = new \Imagine\Image\Box($width, $height);
+    $image = $optimizer->thumbnail($image, $pathInfo['extension'], $size);
+
+    if ($image) {
+        return new Response($image, 200, [
+            'Content-Type' => 'image/'.$pathInfo['extension']
+        ]);
+    }
+})->bind('thumbnail');
+
+$app->get('/image', function (Request $request) use ($app) {
+    $optimizer = new \Photo\Imagine\ImageOptimizer($app['config']['image_optimizer']);
+
+    $path = urldecode($request->query->get('path', ''));
+    $width = $request->query->get('width', $app['config']['image_optimizer']['size']['image']['width']);
+    $height = $request->query->get('height', $app['config']['image_optimizer']['size']['image']['height']);
+
+    $basePath = $app['config']['path'].$path;
+    $pathInfo = pathinfo($path);
+
+    $image = file_get_contents($basePath);
+    $size = new \Imagine\Image\Box($width, $height);
+
+    $image = $optimizer->resize($image, $size, $pathInfo['extension']);
+
     if ($image) {
         return new Response($image, 200, [
             'Content-Type' => 'image/'.$pathInfo['extension']
