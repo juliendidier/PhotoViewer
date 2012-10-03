@@ -3,6 +3,10 @@
     padding: 0;
 }
 
+.container {
+    margin-top: 42px;
+}
+
 .navbar-inner {
     background-image: -moz-linear-gradient(top, #0F0F0F, #000000);
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0F0F0F), to(#000000));
