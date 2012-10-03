@@ -43,12 +43,19 @@ class ImageOptimizer
     {
         list($image, $size) = $this->prepare($stream);
 
+        $updated = false;
         if (null !== $limit['height'] && $limit['height'] < $size->getHeight()) {
             $size = $size->heighten($limit['height']);
+            $update = true;
         }
 
         if (null !== $limit['width'] && $limit['width'] < $size->getWidth() && $remake) {
             $size = $size->widen($limit['width']);
+            $update = true;
+        }
+
+        if (!$updated) {
+            return $stream;
         }
 
         return $image->resize($size)->get($extension);
