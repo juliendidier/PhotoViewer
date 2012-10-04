@@ -4,7 +4,7 @@
 }
 
 .container {
-    margin-top: 42px;
+    margin-top: 43px;
 }
 
 .navbar-inner {
@@ -18,6 +18,14 @@
 
 .navbar .brand,
 .navbar .nav > li > a {
-  color: #FFFFFF;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    color: #FFFFFF;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.carousel {
+    background-color: #000;
+}
+
+.carousel-control {
+    top:50%;
 }

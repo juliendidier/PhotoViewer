@@ -1,7 +1,9 @@
 $(document).ready(function(){
     var width = $('.carousel').width();
     var height = $(window).height();
-    $('.carousel').height(height);
+
+    $('.carousel').height(height - 45);
+    height = $('.carousel').height();
 
     $('#thumbnails li a').each(function() {
         var href = $(this).attr('href')+'&width='+width+'&height='+height;
@@ -11,6 +13,6 @@ $(document).ready(function(){
     });
 
     $('.carousel').carousel({
-        interval: 2000
+        interval: 5000
     });
 });
