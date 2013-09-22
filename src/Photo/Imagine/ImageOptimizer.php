@@ -25,7 +25,6 @@ class ImageOptimizer
 
     public function thumbnail($stream, $extension, BoxInterface $size)
     {
-        $config = $this->config['size']['thumbnail'];
         $image = $this->resize($stream, [
             'width' => $size->getWidth(), 'height' => $size->getHeight()
         ], $extension, false);
@@ -45,15 +44,15 @@ class ImageOptimizer
         $updated = false;
         if (null !== $limit['height'] && $limit['height'] < $image->box->getHeight()) {
             $size = $image->box->heighten($limit['height']);
-            $update = true;
+            $updated = true;
         }
 
         if (null !== $limit['width'] && $limit['width'] < $image->box->getWidth() && $remake) {
             $size = $image->box->widen($limit['width']);
-            $update = true;
+            $updated = true;
         }
 
-        if (!$updated) {
+        if ($updated) {
             return $stream;
         }
 
