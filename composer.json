@@ -1,18 +1,22 @@
 {
+    "name": "juliendidier/PhotoViewer",
+    "description": "Photo Viewer using Silex",
+    "license": "MIT",
     "require": {
-        "php"                   : ">=5.4",
-        "silex/silex"           : "dev-master",
-        "monolog/monolog"       : ">=1.0.0",
-        "twig/twig"             : "1.*",
-        "symfony/twig-bridge"   : "2.1.*",
-        "symfony/yaml"          : "2.1.*",
-        "symfony/finder"        : "2.1.*",
-        "imagine/Imagine"       : "dev-master"
+        "php": ">=5.4",
+        "silex/silex": "1.1.*@dev",
+        "monolog/monolog": ">=1.0.0",
+        "symfony/finder": "2.1.*",
+        "symfony/yaml": "2.1.*",
+        "symfony/finder": "2.1.*",
+        "symfony/twig-bridge": "2.1.*",
+        "twig/twig": "1.*",
+        "imagine/imagine": "0.6.*@dev"
     },
     "autoload": {
         "psr-0": {
             "Photo": "src/"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }

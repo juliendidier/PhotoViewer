@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 $app = new Photo\Application();
-$app['debug'] = true;
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/../views',
@@ -81,7 +80,6 @@ $app->get('/image', function (Request $request) use ($app) {
         'width' => $request->query->get('width', null),
         'height' => $request->query->get('height', null),
     ];
-
     $basePath = $app['config']['path'].$path;
     $pathInfo = pathinfo($path);
 

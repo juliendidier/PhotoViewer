@@ -1,5 +1,4 @@
 <?php
-
 namespace Photo\Imagine;
 
 use Imagine\Image\ImageInterface;
@@ -19,9 +18,9 @@ class ImageOptimizer
 
     public function optimize($stream, $extension)
     {
-        list($image, $size) = $this->prepare($stream);
+        $image = $this->prepare($stream);
 
-        return $this->get($image, $extension);
+        return $this->get($image->image, $extension);
     }
 
     public function thumbnail($stream, $extension, BoxInterface $size)
@@ -31,26 +30,26 @@ class ImageOptimizer
             'width' => $size->getWidth(), 'height' => $size->getHeight()
         ], $extension, false);
 
-        list($image, $box) = $this->prepare($image, $extension);
-        $x = (int) ($box->getWidth() - $size->getWidth()) / 2;
-        $y = (int) ($box->getHeight() - $size->getHeight()) / 2;
+        $image = $this->prepare($image, $extension);
+        $x = (int) ($image->box->getWidth() - $size->getWidth()) / 2;
+        $y = (int) ($image->box->getHeight() - $size->getHeight()) / 2;
 
         $point = new Point($x, $y);
-        return $image->crop($point, $size);
+
+        return $image->image->crop($point, $size);
     }
 
     public function resize($stream, $limit, $extension, $remake = true)
     {
-        list($image, $size) = $this->prepare($stream);
-
+        $image = $this->prepare($stream);
         $updated = false;
-        if (null !== $limit['height'] && $limit['height'] < $size->getHeight()) {
-            $size = $size->heighten($limit['height']);
+        if (null !== $limit['height'] && $limit['height'] < $image->box->getHeight()) {
+            $size = $image->box->heighten($limit['height']);
             $update = true;
         }
 
-        if (null !== $limit['width'] && $limit['width'] < $size->getWidth() && $remake) {
-            $size = $size->widen($limit['width']);
+        if (null !== $limit['width'] && $limit['width'] < $image->box->getWidth() && $remake) {
+            $size = $image->box->widen($limit['width']);
             $update = true;
         }
 
@@ -71,9 +70,9 @@ class ImageOptimizer
     protected function prepare($stream)
     {
         $imagine = new Imagine();
-        $image   = $imagine->load($stream);
-        $size    = $image->getSize();
+        $image = $imagine->load($stream);
+        $size = $image->getSize();
 
-        return array($image, $size);
+        return new Image($image, $size);
     }
 }

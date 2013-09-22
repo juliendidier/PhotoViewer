@@ -1,6 +1,5 @@
-path       : "/var/www/photo/web/photos"
-path       : "/home/julien/Bureau"
-extensions : [ gif, jpg, JPG, jpeg, png ]
+path: "/var/www/photo/web/photos"
+extensions: [ gif, jpg, JPG, jpeg, png ]
 
 image_optimizer:
     jpegoptim:
