@@ -3,6 +3,7 @@ namespace Photo\Imagine;
 
 use Imagine\Image\ImageInterface;
 use Imagine\Image\BoxInterface;
+use Imagine\Image\Box;
 use Imagine\Image\Point;
 
 class ImageOptimizer
@@ -23,8 +24,16 @@ class ImageOptimizer
 
     public function thumbnail($stream, BoxInterface $size, $extension)
     {
-        $stream = $this->resize($stream, $size->getWidth(), $size->getHeight(), $extension, false);
+        $image = $this->prepare($stream);
 
+        if ($image->box->getHeight() > $image->box->getWidth()) {
+            $height = ($image->box->getHeight() / $image->box->getWidth()) * $size->getWidth();
+            $resize = new Box($size->getWidth(), $height);
+        } else {
+            $resize = $size;
+        }
+
+        $stream = $this->resize($stream, $resize->getWidth(), $resize->getHeight(), $extension, false);
         $image = $this->prepare($stream);
         $x = (int) ($image->box->getWidth() - $size->getWidth()) / 2;
         $y = (int) ($image->box->getHeight() - $size->getHeight()) / 2;
