@@ -56,7 +56,7 @@ class ImageOptimizer
             return $stream;
         }
 
-        return $image->resize($size)->get($extension);
+        return $image->image->resize($size)->get($extension);
     }
 
     public function get(ImageInterface $image, $extension)
