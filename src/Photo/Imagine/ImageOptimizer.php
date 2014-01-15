@@ -2,8 +2,6 @@
 namespace Photo\Imagine;
 
 use Imagine\Image\ImageInterface;
-use Imagine\Gd\Imagine;
-use Imagine\Image\Box;
 use Imagine\Image\BoxInterface;
 use Imagine\Image\Point;
 
@@ -23,40 +21,38 @@ class ImageOptimizer
         return $this->get($image->image, $extension);
     }
 
-    public function thumbnail($stream, $extension, BoxInterface $size)
+    public function thumbnail($stream, BoxInterface $size, $extension)
     {
-        $image = $this->resize($stream, [
-            'width' => $size->getWidth(), 'height' => $size->getHeight()
-        ], $extension, false);
+        $stream = $this->resize($stream, $size->getWidth(), $size->getHeight(), $extension, false);
 
-        $image = $this->prepare($image, $extension);
+        $image = $this->prepare($stream);
         $x = (int) ($image->box->getWidth() - $size->getWidth()) / 2;
         $y = (int) ($image->box->getHeight() - $size->getHeight()) / 2;
 
         $point = new Point($x, $y);
 
-        return $image->image->crop($point, $size);
+        return $image->image->crop($point, $size)->get($extension);
     }
 
-    public function resize($stream, $limit, $extension, $remake = true)
+    public function resize($stream, $width, $height, $extension, $remake = true)
     {
         $image = $this->prepare($stream);
-        $updated = false;
-        if (null !== $limit['height'] && $limit['height'] < $image->box->getHeight()) {
-            $size = $image->box->heighten($limit['height']);
-            $updated = true;
+        $resize = false;
+        if (null !== $height && $height < $image->box->getHeight()) {
+            $size = $image->box->heighten($height);
+            $resize = true;
         }
 
-        if (null !== $limit['width'] && $limit['width'] < $image->box->getWidth() && $remake) {
-            $size = $image->box->widen($limit['width']);
-            $updated = true;
+        if (null !== $width && $width < $image->box->getWidth() && $remake) {
+            $size = $image->box->widen($width);
+            $resize = true;
         }
 
-        if ($updated) {
-            return $stream;
+        if ($resize) {
+            return $image->image->resize($size)->get($extension);
         }
 
-        return $image->image->resize($size)->get($extension);
+        return $image->image->get($extension);
     }
 
     public function get(ImageInterface $image, $extension)
@@ -68,10 +64,6 @@ class ImageOptimizer
 
     protected function prepare($stream)
     {
-        $imagine = new Imagine();
-        $image = $imagine->load($stream);
-        $size = $image->getSize();
-
-        return new Image($image, $size);
+        return ImageFactory::fromStream($stream);
     }
 }

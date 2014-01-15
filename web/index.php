@@ -61,9 +61,8 @@ $app->get('/thumbnail', function (Request $request) use ($app) {
     $basePath = $app['config']['path'].$path;
     $pathInfo = pathinfo($path);
 
-    $image = file_get_contents($basePath);
     $size = new \Imagine\Image\Box($width, $height);
-    $image = $optimizer->thumbnail($image, $pathInfo['extension'], $size);
+    $image = $optimizer->thumbnail(file_get_contents($basePath), $size, $pathInfo['extension']);
 
     if ($image) {
         return new Response($image, 200, [
@@ -76,15 +75,15 @@ $app->get('/image', function (Request $request) use ($app) {
     $optimizer = new \Photo\Imagine\ImageOptimizer($app['config']['image_optimizer']);
 
     $path = urldecode($request->query->get('path', ''));
-    $size = [
-        'width' => $request->query->get('width', null),
-        'height' => $request->query->get('height', null),
-    ];
     $basePath = $app['config']['path'].$path;
     $pathInfo = pathinfo($path);
 
-    $image = file_get_contents($basePath);
-    $image = $optimizer->resize($image, $size, $pathInfo['extension']);
+    $image = $optimizer->resize(
+        file_get_contents($basePath),
+        $request->query->get('width', null),
+        $request->query->get('height', null),
+        $pathInfo['extension']
+    );
 
     if ($image) {
         return new Response($image, 200, [
