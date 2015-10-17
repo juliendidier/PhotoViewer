@@ -1,4 +1,4 @@
-path: "/var/www/photo/web/photos"
+path: "../web/photos"
 extensions: [ gif, jpg, JPG, jpeg, png ]
 
 image_optimizer:
